@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dictamen de Auditoría - El Hortelano (Persistente)</title>
+    <title>Dictamen de Auditoría - Monda Gazpacho (Persistente)</title>
     <style>
         :root { --dark: #111; --accent: #2c3e50; --loss: #8b0000; --gain: #27ae60; --gray: #f4f7f6; }
         body { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; background: var(--gray); padding: 15px; color: var(--dark); margin: 0; }
@@ -81,7 +81,7 @@
 
 <div class="container">
     <h1>Auditoría y Gestión</h1>
-    <div class="subtitle">El Hortelano | Base de Datos Persistente</div>
+    <div class="subtitle">Monda Gazpacho | Base de Datos Persistente</div>
     
     <div class="setup-panel">
         <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
@@ -152,29 +152,32 @@
 </div>
 
 <script>
-    let inData = JSON.parse(localStorage.getItem('hortelano_in')) || [
+    // VARIABLES COMPLETAMENTE INDEPENDIENTES - MONDA GAZPACHO
+    let inData = JSON.parse(localStorage.getItem('monda_gazpacho_in')) || [
         {date: '20/03/2026', ref: 'Ejemplo 1', qty: 25.45}
     ];
     
-    let outData = JSON.parse(localStorage.getItem('hortelano_out')) || [
+    let outData = JSON.parse(localStorage.getItem('monda_gazpacho_out')) || [
         {date: '20/03/2026', type: 'GAZ', ref: 'Ejemplo', qty: 2.00, price: 2.20}
     ];
 
-    document.getElementById('cfgMerma').value = localStorage.getItem('hortelano_merma') || 20;
+    document.getElementById('cfgMerma').value = localStorage.getItem('monda_gazpacho_merma') || 20;
 
     function saveToDisk() {
-        localStorage.setItem('hortelano_in', JSON.stringify(inData));
-        localStorage.setItem('hortelano_out', JSON.stringify(outData));
+        localStorage.setItem('monda_gazpacho_in', JSON.stringify(inData));
+        localStorage.setItem('monda_gazpacho_out', JSON.stringify(outData));
     }
 
     function updateConfig() {
-        localStorage.setItem('hortelano_merma', document.getElementById('cfgMerma').value);
+        localStorage.setItem('monda_gazpacho_merma', document.getElementById('cfgMerma').value);
         renderTables();
     }
 
     function clearAllData() {
         if(confirm("¿Seguro que quieres borrar TODOS los datos? Esta acción es definitiva.")) {
-            localStorage.clear();
+            localStorage.removeItem('monda_gazpacho_in');
+            localStorage.removeItem('monda_gazpacho_out');
+            localStorage.removeItem('monda_gazpacho_merma');
             location.reload();
         }
     }
