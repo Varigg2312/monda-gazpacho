@@ -1,4 +1,4 @@
-/* Busca y reemplaza esta parte en tu <style> */
+/* Panel de Formulario Aislado y Blindado */
 .form-panel { 
     margin-top: 30px; 
     padding: 20px; 
@@ -26,7 +26,8 @@
     flex: 1 1 180px; /* Evita que se colapsen */
 }
 
-label { 
+/* Fíjate bien: le decimos que SOLO afecte a los label del form-panel */
+.form-panel label { 
     font-size: 11px; 
     font-weight: bold; 
     text-transform: uppercase; 
@@ -34,7 +35,8 @@ label {
     color: var(--dark); 
 }
 
-input, select { 
+/* Lo mismo para los input y select: confinados al panel inferior */
+.form-panel input, .form-panel select { 
     padding: 14px; /* Más grandes y cómodos */
     border: 2px solid #ccc; 
     border-radius: 4px; 
@@ -45,7 +47,7 @@ input, select {
     transition: border-color 0.2s;
 }
 
-input:focus, select:focus {
+.form-panel input:focus, .form-panel select:focus {
     border-color: var(--loss);
     outline: none;
 }
