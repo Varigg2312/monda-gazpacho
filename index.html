@@ -31,30 +31,65 @@
         .btn-del:hover { background: var(--loss); color: white; border-color: var(--loss); }
 
         .kpi-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; border-top: 2px solid var(--dark); padding-top: 20px; }
-        @media (min-width: 800px) { .kpi-grid { grid-template-columns: repeat(5, 1fr); gap: 15px; } }
+        @media (min-width: 800px) { .kpi-grid { grid-template-columns: repeat(3, 1fr); gap: 15px; } }
         
         .kpi-card { border: 1px solid #ccc; padding: 12px; text-align: center; background: #fff; }
         .kpi-card small { display: block; font-size: 9px; text-transform: uppercase; color: #555; margin-bottom: 5px; font-weight: bold; }
         .kpi-card span { font-size: 18px; font-weight: bold; font-family: monospace; display: block; }
         .kpi-dark { background: var(--dark); color: #fff; border-color: var(--dark); }
+        .kpi-accent { background: var(--accent); color: #fff; border-color: var(--accent); }
         
-        .form-panel { margin-top: 30px; padding: 20px; border: 2px dashed #ccc; background: #fdfdfd; }
-        .form-row { display: flex; flex-direction: column; gap: 15px; }
-        @media (min-width: 800px) { .form-row { flex-direction: row; flex-wrap: wrap; align-items: flex-end; } }
-        .field { display: flex; flex-direction: column; flex: 1 1 180px; }
-        .field label { font-size: 11px; font-weight: bold; text-transform: uppercase; margin-bottom: 6px; color: var(--dark); }
+        /* Panel de Formulario Aislado */
+        .form-panel { 
+            margin-top: 30px; 
+            padding: 20px; 
+            border: 2px dashed #444; 
+            background: #fff; 
+        }
         
-        input, select { 
-            padding: 12px; 
+        .form-row { 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px; 
+        }
+        
+        @media (min-width: 800px) { 
+            .form-row { 
+                flex-direction: row; 
+                flex-wrap: wrap;
+                align-items: flex-end; 
+            } 
+        }
+        
+        .field { 
+            display: flex; 
+            flex-direction: column; 
+            flex: 1 1 180px; 
+        }
+        
+        .form-panel label { 
+            font-size: 11px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            margin-bottom: 6px; 
+            color: var(--dark); 
+        }
+        
+        .form-panel input, .form-panel select { 
+            padding: 14px; 
             border: 2px solid #ccc; 
             border-radius: 4px; 
             font-size: 16px; 
             width: 100%; 
-            box-sizing: border-box;
-            background: white;
+            box-sizing: border-box; 
+            font-family: inherit;
             transition: border-color 0.2s;
         }
-        input:focus, select:focus { border-color: var(--loss); outline: none; }
+        
+        .form-panel input:focus, .form-panel select:focus {
+            border-color: var(--loss);
+            outline: none;
+        }
         
         button.btn-add { 
             background: var(--loss); 
@@ -62,13 +97,14 @@
             font-weight: bold; 
             cursor: pointer; 
             border: none; 
-            padding: 15px 25px; 
+            padding: 16px 25px; 
             text-transform: uppercase; 
             font-size: 14px; 
-            width: 100%;
-            transition: opacity 0.2s;
+            width: 100%; 
+            transition: background 0.3s;
         }
-        button.btn-add:hover { opacity: 0.9; }
+        
+        button.btn-add:hover { background: #660000; }
         
         .breakdown-box { background: #f8f9fa; padding: 12px; border: 1px solid #ddd; margin-top: 10px; font-size: 10px; color: #333; }
         .breakdown-box strong { color: var(--loss); }
@@ -121,7 +157,8 @@
         <div class="kpi-card"><small>Tomate Consumido Total</small><span id="kpiConsumo">0.00 kg</span></div>
         <div class="kpi-card" id="cardBal"><small>Balance Inventario</small><span id="kpiBalance">0.00 kg</span></div>
         <div class="kpi-card"><small>Total Desperdicio</small><span id="kpiBasura" style="color:#666;">0.00 kg</span></div>
-        <div class="kpi-card kpi-dark"><small>Unidades Totales</small><span id="kpiCash">0.00 Unid.</span></div>
+        <div class="kpi-card kpi-dark"><small>Total Gazpacho</small><span id="kpiGaz">0.00 L</span></div>
+        <div class="kpi-card kpi-accent"><small>Total Salmorejo</small><span id="kpiSalm">0.00 kg</span></div>
     </div>
 
     <div class="form-panel no-print">
@@ -141,7 +178,7 @@
             <button class="btn-add" onclick="addEntry()">Anotar en Auditoría</button>
         </div>
         <div style="margin-top:20px; text-align:right;">
-            <button onclick="clearAllData()" style="background:#555; width:auto; padding:8px 12px; font-size:10px; opacity: 0.6;">Borrar todo y reiniciar sistema</button>
+            <button onclick="clearAllData()" style="background:#555; width:auto; padding:8px 12px; font-size:10px; color: white; border: none; cursor: pointer; opacity: 0.8;">Borrar todo el registro (Peligro)</button>
         </div>
     </div>
     
@@ -183,7 +220,7 @@
     }
 
     function clearAllData() {
-        if(confirm("¿Seguro que quieres borrar TODOS los datos de Monda Gazpacho? Esta acción es definitiva.")) {
+        if(confirm("¿Seguro que quieres borrar TODOS los datos de Monda Gazpacho? Esta acción purgará los registros de forma permanente.")) {
             localStorage.removeItem('monda_gazpacho_in');
             localStorage.removeItem('monda_gazpacho_out');
             localStorage.removeItem('monda_gazpacho_merma');
@@ -208,15 +245,17 @@
 
         const tbOut = document.getElementById('tableOut').tBodies[0];
         tbOut.innerHTML = '';
-        let vGaz = 0, kSalm = 0, tConsumoSumado = 0, tBasuraSumada = 0, totalUnidades = 0;
+        let vGaz = 0, kSalm = 0, tConsumoSumado = 0, tBasuraSumada = 0;
         
         outData.forEach((r, i) => {
-            totalUnidades += r.qty;
-            if(r.type === 'GAZ') vGaz += r.qty; else kSalm += r.qty;
+            if(r.type === 'GAZ') {
+                vGaz += r.qty;
+            } else {
+                kSalm += r.qty;
+            }
             
             const tomateNetoNecesario = r.type === 'GAZ' ? (r.qty / 1.5) : r.qty;
-            const mermaProceso = r.merma !== undefined ? r.merma : defaultMerma;
-            
+            const mermaProceso = r.merma !== undefined && r.merma !== null && !isNaN(r.merma) ? r.merma : defaultMerma;
             const tomateBrutoConsumido = tomateNetoNecesario / (1 - (mermaProceso / 100));
             const basuraGenerada = tomateBrutoConsumido - tomateNetoNecesario;
             
@@ -236,7 +275,8 @@
         document.getElementById('kpiLimpio').innerText = fmt(tBruto) + " kg";
         document.getElementById('kpiConsumo').innerText = fmt(tConsumoSumado) + " kg";
         document.getElementById('kpiBasura').innerText = fmt(tBasuraSumada) + " kg";
-        document.getElementById('kpiCash').innerText = fmt(totalUnidades);
+        document.getElementById('kpiGaz').innerText = fmt(vGaz) + " L";
+        document.getElementById('kpiSalm').innerText = fmt(kSalm) + " kg";
         
         const bText = document.getElementById('kpiBalance');
         bText.innerText = (bal > 0 ? "+" : "") + fmt(bal) + " kg";
@@ -251,7 +291,7 @@
         const dynamicVal = parseFloat(document.getElementById('fDynamic').value);
         const ref = document.getElementById('fRef').value || "Manual";
         
-        if(!dateInput || qty <= 0) return alert("Fecha y cantidad son obligatorias.");
+        if(!dateInput || qty <= 0) return alert("Fecha y cantidad son obligatorias. Y que no se te olvide.");
         
         const fDate = dateInput.split('-').reverse().join('/');
         
